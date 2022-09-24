@@ -2,15 +2,15 @@
 {% block body %}
 
 <div class="row">
-    <div class="col-lg-7">
+    <div class="col-ml-7">
         
-        <div class="card card-body text-bg-dark pt-4">
+        <div class="card card-body text-bg-dark">
             <form action="/add" method="POST">
-                <label for="txtNombre" class="form-label">Ingrese el nombre</label>
+                <label for="txtNombre" class="form-label text-capitalize">Ingrese el nombre</label>
                 <input class="form-control" type="text" id="txtNombre" name="nombre" placeholder="Nombre" required>
-                <label for="txtApellido" class="form-label pt-2">Ingrese el apellido</label>
+                <label for="txtApellido" class="form-label pt-2 text-capitalize">Ingrese el apellido</label>
                 <input class="form-control" type="text" id="txtApellido" name="apellido" placeholder="Apellido" required>
-                <label for="txtCuidad" class="form-label pt-2">Ingrese la ciudad</label>
+                <label for="txtCuidad" class="form-label pt-2 text-capitalize">Ingrese la ciudad</label>
                 <input class="form-control" type="text" id="txtCiudad" name="ciudad" list="datalistOptions" placeholder="Ciudad" required>
                 <datalist id="datalistOptions">
                     <option value="Cochabamba">
@@ -19,9 +19,9 @@
                     <option value="Tarija">
                     <option value="Oruro">
                 </datalist>
-                <label for="txtDireccion" class="form-label pt-2">Ingrese la direccion</label>
+                <label for="txtDireccion" class="form-label pt-2 text-capitalize">Ingrese la direccion</label>
                 <input class="form-control" type="text" id="txtDireccion" name="direccion" placeholder="Direccion" required>
-                <label for="txtSalario" class="form-label pt-2">Ingrese el salario</label>
+                <label for="txtSalario" class="form-label pt-2 text-capitalize">Ingrese el salario</label>
                 <input class="form-control" type="text" id="txtSalario" name="salario" list="datalistSalary" placeholder="Salario" required>
                 <datalist id="datalistSalary">
                     <option value="1000">
@@ -31,28 +31,27 @@
                     <option value="5000">
                 </datalist>
                 <div class="form-group pt-2">
-                    <button type="submit" class="btn btn-outline-info" >
+                    <button type="submit" class="btn btn-outline-info text-capitalize" >
                         Agregar nuevo registro
                     </button>
                 </div>
             </form>
         </div>
-
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages() %}
             {% if messages %}
             {% for message in messages %}
-            <strong>{{message}}</strong>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             {% endfor %}
             {% endif %}
-            {% endwith %}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        {% endwith %}
 
         <hr/>
         <div class="table-responsive-lg pt-4">
             <table class="table table-success table-striped caption-top">
-                <caption>Lista de registros</caption>
+                <caption class="text-capitalize">Lista de registros</caption>
                 <thead class="table-dark">
                     <tr>
                         <td>Nombre</td>

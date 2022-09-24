@@ -2,14 +2,14 @@
 {% block body %}
 
 <div class="row">
-    <div class="col-lg-7">
+    <div class="col-ml-7">
         <div class="card card-body text-bg-dark pt-4">
             <form action="/update/{{professor.0}}" method="POST">
-                <label for="txtNombre" class="form-label">Ingrese el nombre</label>
+                <label for="txtNombre" class="form-label text-capitalize">Ingrese el nombre</label>
                 <input class="form-control" type="text" id="txtNombre" name="nombre" placeholder="Nombre" value="{{ professor.1 }}" required>
-                <label for="txtApellido" class="form-label pt-2">Ingrese el apellido</label>
+                <label for="txtApellido" class="form-label pt-2 text-capitalize">Ingrese el apellido</label>
                 <input class="form-control" type="text" id="txtApellido" name="apellido" placeholder="Apellido" value="{{ professor.2 }}" required>
-                <label for="txtCuidad" class="form-label pt-2">Ingrese la ciudad</label>
+                <label for="txtCuidad" class="form-label pt-2 text-capitalize">Ingrese la ciudad</label>
                 <input class="form-control" type="text" id="txtCiudad" name="ciudad" list="datalistOptions" placeholder="Ciudad" value="{{ professor.3 }}" required>
                 <datalist id="datalistOptions">
                     <option value="Cochabamba">
@@ -18,9 +18,9 @@
                     <option value="Tarija">
                     <option value="Oruro">
                 </datalist>
-                <label for="txtDireccion" class="form-label pt-2">Ingrese la direccion</label>
+                <label for="txtDireccion" class="form-label pt-2 text-capitalize">Ingrese la direccion</label>
                 <input class="form-control" type="text" id="txtDireccion" name="direccion" placeholder="Direccion" value="{{ professor.4 }}" required>
-                <label for="txtSalario" class="form-label pt-2">Ingrese el salario</label>
+                <label for="txtSalario" class="form-label pt-2 text-capitalize">Ingrese el salario</label>
                 <input class="form-control" type="text" id="txtSalario" name="salario" list="datalistSalary" placeholder="Salario" value="{{ professor.5 }}" required>
                 <datalist id="datalistSalary">
                     <option value="1000">
@@ -30,7 +30,7 @@
                     <option value="5000">
                 </datalist>
                 <div class="form-group pt-2">
-                    <button type="submit" class="btn btn-outline-info" >
+                    <button type="submit" class="btn btn-outline-info text-capitalize" >
                         Modificar registro
                     </button>
                 </div>

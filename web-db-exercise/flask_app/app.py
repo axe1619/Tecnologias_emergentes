@@ -35,8 +35,8 @@ def add_professor():
         cursor = mysql.connection.cursor()
         cursor.execute('INSERT INTO professor (first_name, last_name, city, address, salary) VALUES (%s, %s, %s, %s, %s)',
         (nombre, apellido, ciudad, direccion, salario))
-        flash('Nuevo registro agregado')
         mysql.connection.commit()
+        flash('Nuevo registro agregado')
     return redirect(url_for('professor_list'))
 
 #funcion para eleminar un registro existente
@@ -44,8 +44,8 @@ def add_professor():
 def delete_professor(id):
     cursor = mysql.connection.cursor()
     cursor.execute('DELETE FROM professor WHERE id = %s', (id))
-    flash('Registro eliminado')
     mysql.connection.commit()
+    flash('Registro eliminado')
     return redirect(url_for('professor_list'))
 
 #funcion para llamar a un registro
@@ -68,8 +68,8 @@ def update_professor(id):
         salario = request.form['salario']
         cursor = mysql.connection.cursor()
         cursor.execute('UPDATE professor SET first_name=%s, last_name=%s, city=%s, address=%s, salary=%s WHERE id=%s', (nombre, apellido, ciudad, direccion, salario, id))
-        flash('Registro modificado')
         mysql.connection.commit()
+        flash('Registro modificado')
     return redirect(url_for('professor_list'))
 
 
