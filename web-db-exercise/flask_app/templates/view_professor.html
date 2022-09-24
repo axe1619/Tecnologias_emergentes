@@ -1,0 +1,86 @@
+{% extends 'layout_master.html' %}
+{% block body %}
+
+<div class="row">
+    <div class="col-lg-7">
+        
+        <div class="card card-body text-bg-dark pt-4">
+            <form action="/add" method="POST">
+                <label for="txtNombre" class="form-label">Ingrese el nombre</label>
+                <input class="form-control" type="text" id="txtNombre" name="nombre" placeholder="Nombre" required>
+                <label for="txtApellido" class="form-label pt-2">Ingrese el apellido</label>
+                <input class="form-control" type="text" id="txtApellido" name="apellido" placeholder="Apellido" required>
+                <label for="txtCuidad" class="form-label pt-2">Ingrese la ciudad</label>
+                <input class="form-control" type="text" id="txtCiudad" name="ciudad" list="datalistOptions" placeholder="Ciudad" required>
+                <datalist id="datalistOptions">
+                    <option value="Cochabamba">
+                    <option value="La Paz">
+                    <option value="Santa Cruz">
+                    <option value="Tarija">
+                    <option value="Oruro">
+                </datalist>
+                <label for="txtDireccion" class="form-label pt-2">Ingrese la direccion</label>
+                <input class="form-control" type="text" id="txtDireccion" name="direccion" placeholder="Direccion" required>
+                <label for="txtSalario" class="form-label pt-2">Ingrese el salario</label>
+                <input class="form-control" type="text" id="txtSalario" name="salario" list="datalistSalary" placeholder="Salario" required>
+                <datalist id="datalistSalary">
+                    <option value="1000">
+                    <option value="2000">
+                    <option value="3000">
+                    <option value="4000">
+                    <option value="5000">
+                </datalist>
+                <div class="form-group pt-2">
+                    <button type="submit" class="btn btn-outline-info" >
+                        Agregar nuevo registro
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <strong>{{message}}</strong>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <hr/>
+        <div class="table-responsive-lg pt-4">
+            <table class="table table-success table-striped caption-top">
+                <caption>Lista de registros</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Apellido</td>
+                        <td>Ciudad</td>
+                        <td>Direccion</td>
+                        <td>Salario</td>
+                        <td>Realizar Accion</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for professor in professors: %}
+                    <tr>
+                        <td>{{ professor.first_name}}</td>
+                        <td>{{ professor.last_name }}</td>
+                        <td>{{ professor.city }}</td>
+                        <td>{{ professor.address }}</td>
+                        <td>{{ professor.salary }}</td>
+                        <td>
+                           <a href="/edit/{{professor.id}}" class="btn btn-outline-info" >Modificar</a>
+                           <a href="/delete/{{professor.id}}" class="btn btn-outline-danger" >Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

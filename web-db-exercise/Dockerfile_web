@@ -1,0 +1,7 @@
+# syntax=docker/dockerfile:1
+FROM ubuntu:20.04
+
+
+RUN export DEBIAN_FRONTEND= && apt-get update && apt-get install -y apache2 && apt-get install -y libapache2-mod-php && apt-get install -y php-mysql
+
+CMD ["apachectl", "-D", "FOREGROUND"]
