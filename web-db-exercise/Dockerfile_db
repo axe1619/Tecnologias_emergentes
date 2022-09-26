@@ -1,0 +1,10 @@
+# syntax=docker/dockerfile:1
+FROM ubuntu:20.04
+##habilitar puerto del servidor
+EXPOSE 3306
+
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y mysql-server && service mysql start && mysql -e "CREATE DATABASE example;" && mysql -e "USE example; CREATE TABLE professor(id int NOT NULL AUTO_INCREMENT, first_name varchar(50), last_name varchar(50), city varchar(50), address varchar(50), salary int, PRIMARY KEY(id)); INSERT INTO professor(first_name, last_name, city, address, salary) VALUES ('Juan', 'Coronel', 'Cochabamba', 'America', 1000),('Carlos', 'Bologna', 'Santa Cruz', 'Ayacucho', 2000); " && mysql -e "CREATE USER 'example_user'@'%' IDENTIFIED BY 'mysql';" && mysql -e "GRANT ALL ON example.* TO 'example_user'@'%';"
+
+RUN sed -i 's/bind-address.*/bind-address = 0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+##ejecutar el servico de mysql
+CMD ["mysqld"]
