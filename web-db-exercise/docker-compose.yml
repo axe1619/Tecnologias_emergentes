@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile_flask
     ports:
-      - 4000:81
+      - 4000:80
     volumes:
       - ./flask_app:/var/www/html
     
