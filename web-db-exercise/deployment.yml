@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: nodedb
+        image: axelmiranda845/practical_assigment2:keydb
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 3306
+      - name: nodeflask
+        image: axelmiranda845/practical_assigment2:keyflask
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 81
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dbcontainer
+spec:
+  selector:
+    app: flask-app
+  ports:
+  - port: 3306
+    targetPort: 3306
+
