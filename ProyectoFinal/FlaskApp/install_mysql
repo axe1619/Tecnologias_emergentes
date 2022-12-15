@@ -3,8 +3,8 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y mysql-server
 service mysql start
-mysql -e "CREATE DATABASE example;"
-mysql -e "USE example; CREATE TABLE professor(id int NOT NULL AUTO_INCREMENT, first_name varchar(50), last_name varchar(50), city varchar(50), address varchar(50), salary int, PRIMARY KEY(id)); INSERT INTO professor(first_name, last_name, city, address, salary) VALUES ('Juan', 'Coronel', 'Cochabamba', 'America', 1000),('Carlos', 'Bologna', 'Santa Cruz', 'Ayacucho', 2000); "
-mysql -e "CREATE USER 'example_user'@'%' IDENTIFIED BY 'mysql';"
-mysql -e "GRANT ALL ON example.* TO 'example_user'@'%';"
+mysql -e "CREATE DATABASE newsDb;"
+mysql -e "USE newsDb; CREATE TABLE user(id_user int NOT NULL AUTO_INCREMENT, name varchar(100), email varchar(100), password varchar(100), role int, date_register datetime, date_upgrade datetime, condition int, PRIMARY KEY(id)); INSERT INTO user(name, email, password, role, date_register, date_upgrade, condition) VALUES ('Juan', 'jaun2@gmail.com', '12345', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1); "
+mysql -e "CREATE USER 'root'@'%' IDENTIFIED BY 'Univalle';"
+mysql -e "GRANT ALL ON newsDb.* TO 'root'@'%';"
 sed -i 's/bind-address.*/bind-address = 0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
