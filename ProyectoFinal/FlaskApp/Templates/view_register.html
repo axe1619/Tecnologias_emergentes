@@ -1,0 +1,68 @@
+{% extends 'layout_master.html' %}
+{% block body %}
+
+<div class="row">
+    <div class="col-ml-7">
+        <div class="card border-light mb-3 mt-2">
+            <div class="card-header">FORMULARIO DE REGISTRO</div>
+            <div class="card-body text-bg-active">
+                <form action="/add" method="POST">
+                    <label for="txtName" class="form-label text-capitalize">Ingrese su nombre completo</label>
+                    <input class="form-control" type="text" id="txtName" name="name" placeholder="Nombre completo" required>
+                    <label for="txtEmail" class="form-label pt-2 text-capitalize">Ingrese su correo electronico</label>
+                    <input class="form-control" type="text" id="txtEmail" name="email" placeholder="Correo electronico" required>
+                    <label for="txtPassword" class="form-label pt-2 text-capitalize">Ingrese su contrasenha</label>
+                    <input class="form-control" type="text" id="txtPassword" name="password" placeholder="Contrasenha" required>
+                    <div class="form-group pt-2">
+                        <button type="submit" class="btn btn-outline-dark text-capitalize" >
+                            Crear cuenta
+                        </button>
+                    </div>
+                </form>
+            </div>
+          </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <hr/>
+        {% if session['role']==2 %}
+        <div class="table-responsive-lg pt-4">
+            <table class="table table-success table-striped caption-top">
+                <caption class="text-capitalize">Lista de registros</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Email</td>
+                        <td>Contrasenha</td>
+                        <td>Fecha Registro</td>
+                        <td>Fecha Actualizacion</td>
+                        <td>Estado</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users: %}
+                    <tr>
+                        <td>{{ user.name}}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>{{ user.date_register }}</td>
+                        <td>{{ user.date_upgrade }}</td>
+                        <td>{{ user.condition }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
