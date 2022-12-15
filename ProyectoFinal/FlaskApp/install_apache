@@ -1,0 +1,6 @@
+#!/bin/bash
+export DEBIAN_FRONTEND=noninteractive
+apt-get update
+apt-get install -y apache2
+apt-get install -y libapache2-mod-php
+apt-get install -y php-mysql

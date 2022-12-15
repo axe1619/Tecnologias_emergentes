@@ -7,11 +7,11 @@ from sklearn.utils import shuffle
 import pickle
 import pandas as pd
 import MySQLdb.cursors
-import json
 import bcrypt
 
 app = Flask(__name__)
 
+#configuracion para acceder al servidor y base de datos
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'Univalle'
@@ -21,15 +21,17 @@ mysql = MySQL(app)
 
 app.secret_key = "mysecretkey"
 
+#ruta para la vista home
 @app.route('/')
 def home():
     return render_template('view_home.html')
 
+#ruta para la vista login
 @app.route('/login_view')
 def login_view():
     return render_template('view_login.html')
 
-##mostrar la lista de registros de la tabla de profesores
+#mostrar las lista de registros
 @app.route('/list', methods=['GET'])
 def users_list():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -37,7 +39,7 @@ def users_list():
     data = cursor.fetchall()
     return render_template('view_register.html', users=data)
 
-#funcion para agregar un nuevo registro a la tabla profesores
+#funcion para registrar un nuevo usuario
 @app.route('/add', methods=['POST'])
 def add_user():
     if request.method == 'POST':
@@ -54,6 +56,7 @@ def add_user():
         session['email'] = email
     return redirect(url_for('users_list'))
 
+#eliminar registro existente de la tabla usuario
 @app.route('/delete/<id>', methods=['POST', 'GET'])
 def delete_user(id):
     cursor = mysql.connection.cursor()
@@ -62,7 +65,7 @@ def delete_user(id):
     flash('Registro eliminado')
     return redirect(url_for('users_list'))
 
-
+#funcion para iniciar sesion
 @app.route('/login', methods=['GET','POST'])
 def login():
     if request.method=="POST":
@@ -85,6 +88,7 @@ def login():
     else:
        return redirect(url_for('users_list'))  
 
+#funcion para cerrar sesion
 @app.route('/logout')
 def logout():
     session.clear()
@@ -94,6 +98,7 @@ def logout():
 #uso de machine learning en python
 tfvect = TfidfVectorizer(stop_words='english', max_df=0.7)
 
+#cargar el modelo para el dataset
 loaded_model = pickle.load(open('model.pkl', 'rb'))
 
 #datset usados para el entrenamiento de la app
@@ -108,41 +113,54 @@ fake['target'] = 'fake'
 x = data['text']
 y = data['label']
 
+#variables para entrenar el dataset
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
 
+#funcion para concatenar dos archivos
 def concat_file(file_true, file_fake):
     #concatenar los archivos true y fake en un solo dataset
     dataset = pd.concat([file_true, file_fake]).reset_index(drop = True)
     dataset['text'] = dataset['text'].apply(lambda x: x.lower())
     return dataset
 
+#funcion para ordenacion y shuffle
 def shuffling_file(dataset):
     data = shuffle(dataset)
     data = data.reset_index(drop=True)
     return data
 
+#funcion para limipar datos del dataset
 def clear_file(dataset):
     clear_data = dataset.drop(["date"],axis=1,inplace=True)
     clear_data = dataset.drop(["title"],axis=1,inplace=True)
     return clear_data
 
+#funcion para detectar la noticia usando prediccion
 def detect_news(news):
     tfid_x_train = tfvect.fit_transform(x_train)
     tfid_x_test = tfvect.transform(x_test)
     input_data = [news]
     vectorized_input_data = tfvect.transform(input_data)
     prediction = loaded_model.predict(vectorized_input_data)
+    print(tfid_x_test)
+    print(tfid_x_train)
     return prediction
 
+#ruta para la vista de deteccion de noticias
 @app.route('/detector')
 def detector_view():
     return render_template('view_detector.html')
 
+#funcion para enviar la deteccion de la noticia ingresada
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
         message = request.form['message']
         pred = detect_news(message)
+        cursor = mysql.connection.cursor()
+        cursor.execute('INSERT INTO news (text, target) VALUES (%s, %s)',
+        (message, pred))
+        mysql.connection.commit()
         flash(pred, "info")
         return render_template('view_detector.html', prediction=pred)
     else:
