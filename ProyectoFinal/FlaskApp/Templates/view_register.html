@@ -35,16 +35,15 @@
         <hr/>
         {% if session['role']==2 %}
         <div class="table-responsive-lg pt-4">
-            <table class="table table-success table-striped caption-top">
+            <table class="table table-dark table-striped caption-top">
                 <caption class="text-capitalize">Lista de registros</caption>
                 <thead class="table-dark">
                     <tr>
                         <td>Nombre</td>
                         <td>Email</td>
-                        <td>Contrasenha</td>
                         <td>Fecha Registro</td>
                         <td>Fecha Actualizacion</td>
-                        <td>Estado</td>
+                        <td>Realizar Accion</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,10 +51,11 @@
                     <tr>
                         <td>{{ user.name}}</td>
                         <td>{{ user.email }}</td>
-                        <td>{{ user.password }}</td>
                         <td>{{ user.date_register }}</td>
                         <td>{{ user.date_upgrade }}</td>
-                        <td>{{ user.condition }}</td>
+                        <td>
+                            <a href="/delete/{{user.id_user}}" class="btn btn-outline-danger" >Eliminar</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

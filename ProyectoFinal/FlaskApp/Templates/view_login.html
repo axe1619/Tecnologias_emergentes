@@ -4,24 +4,26 @@
 <div class="row">
     <div class="col-ml-7">
         <div class="card border-dark mb-3 mt-2">
-            <div class="card-header">VERIFICA USANDO ESTE DETECTOR</div>
+            <div class="card-header">INICIO DE SESION</div>
             <div class="card-body text-bg-active">
-                <form action="/predict" method="POST">
-                    <label for="txtNoticia" class="form-label pt-2 text-capitalize">Ingrese la noticia que quiere verificar</label>
-                    <textarea class="form-control" type="text" id="txtNoticia" name="message" placeholder="Ingrese la noticia" required rows="6" cols="50"></textarea>
+                <form action="/login" method="POST">
+                    <label for="txtEmail" class="form-label pt-2 text-capitalize">Ingrese su correo electronico</label>
+                    <input class="form-control" type="text" id="txtEmail" name="email" placeholder="Correo electronico" required>
+                    <label for="txtPassword" class="form-label pt-2 text-capitalize">Ingrese su contrasenha</label>
+                    <input class="form-control" type="text" id="txtPassword" name="password" placeholder="Contrasenha" required>
                     <div class="form-group pt-2">
                         <button type="submit" class="btn btn-outline-light text-capitalize" >
-                            Detectar Noticia
+                            Iniciar Sesion
                         </button>
                     </div>
-                    {% if prediction == ['FAKE']%}
-	                    <h2 class="mt-2" style="color:red;"> La noticia es falsa!!⚠️📰 </h2>
-	                {% elif prediction == ['REAL']%}
-				        <h2 class="mt-2" style="color:green;"><b> La noticia es real!!📰</b></h2>
-	                {% endif %}
+                    <div class="btn btn-outline-success mt-2">
+                        <a href="/list">
+                            Crear nueva cuenta
+                        </a>
+                    </div>
                 </form>
             </div>
-        </div>
+          </div>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
             {% for message in messages %}
